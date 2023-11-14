@@ -1,0 +1,41 @@
+CREATE DATABASE IF NOT EXISTS `xamuxibil` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `xamuxibil`;
+
+CREATE TABLE `chamados` (
+  `RA` int(11) NOT NULL,
+  `NOME` varchar(45) NOT NULL,
+  `PROBLEMA_ID` int(11) NOT NULL,
+  `DESCRICAO` varchar(100) NOT NULL,
+  `SALA` int(11) NOT NULL,
+  `RESOLVIDO` tinyint(1) NOT NULL,
+  `id` int(11) NOT NULL,
+  `DATECAD` datetime NOT NULL DEFAULT current_timestamp(),
+  `DATERESOL` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `problemas` (
+  `PROBLEMA` varchar(45) NOT NULL,
+  `PROBLEMA_ID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO `problemas` (`PROBLEMA`, `PROBLEMA_ID`) VALUES
+('SOFTWARE', 1),
+('HARDWARE', 2),
+('REDE', 3),
+('ENERGIA', 4);
+
+ALTER TABLE `chamados`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `PROBLEMA_ID` (`PROBLEMA_ID`);
+
+ALTER TABLE `problemas`
+  ADD PRIMARY KEY (`PROBLEMA_ID`);
+
+ALTER TABLE `chamados`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+ALTER TABLE `problemas`
+  MODIFY `PROBLEMA_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+ALTER TABLE `chamados`
+  ADD CONSTRAINT `chamados_ibfk_1` FOREIGN KEY (`PROBLEMA_ID`) REFERENCES `problemas` (`PROBLEMA_ID`);
